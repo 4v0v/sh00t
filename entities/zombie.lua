@@ -16,8 +16,6 @@ function Zombie:update(dt)
 	self.super.update(self, dt)
 	self.sine:update(dt)
 
-
-
 	local player = self.mgr:get('player')
 	if player then 
 		local target_direction = (Vec2(player.x, player.y) - Vec2(self.x, self.y)):normalized()
@@ -29,16 +27,12 @@ function Zombie:update(dt)
 		self.x = position_vector.x
 		self.y = position_vector.y
 	end
-
-
-
 end
 
 function Zombie:draw()
 	self.super.draw(self)
 	love.graphics.setColor(0, 1, 0)
 	love.graphics.circle('fill', self.x, self.y, self.r + self.sine:value())
-	
 
 	love.graphics.setColor(1, 1, 1)
 	love.graphics.line(self.x, self.y, self.x + self.direction.x * 50, self.y + self.direction.y * 50)
