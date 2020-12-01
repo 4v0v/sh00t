@@ -13,6 +13,7 @@ end
 
 function Entity:init() end
 function Entity:draw() end
+function Entity:draw_outside_camera() end
 function Entity:update(dt) self.timer:update(dt) end
 function Entity:set_pos(x, y) self.x, self.y = x, y return self end
 function Entity:set_state(state) self.state = state return self end

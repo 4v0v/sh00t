@@ -139,10 +139,7 @@ end
 
 function Timer:once(action, tag) return self:every(math.huge, action, tag) end
 function Timer:always(action, each, tag) return self:during(math.huge, action, each, tag) end
-function Timer:is_timer(tag) return not not self.timers[tag] end
-function Timer:get_time(tag) return self.timers[tag].t, self.timers[tag].total end
-function Timer:get_type(tag) return self.timers[tag].type end
-function Timer:get_count(tag) return self.timers[tag].c, self.timers[tag].count end
+function Timer:get(tag) return self.timers[tag] end
 function Timer:pause(tag) self.timers[tag].status = 'pause' end
 function Timer:play(tag) self.timers[tag].status = 'play' end
 function Timer:remove(tag) self.timers[tag] = nil end

@@ -1,5 +1,7 @@
+require("libraries/monkey")
 require("libraries/utils")
 Class = require("libraries/class")
+Camera = require("libraries/camera")
 Vec2 = require("libraries/vector")
 
 require("classes/entity_mgr")
@@ -11,16 +13,17 @@ require("classes/sinewave")
 require("managers/play")
 
 require("entities/player")
-require("entities/zombie")
+require("entities/enemy")
 require("entities/bullet")
+require("entities/trail")
+require("entities/wave_title")
+require("entities/rectangle")
+require("entities/text")
 
 function love.load()
+	love.graphics.setDefaultFilter("nearest", "nearest")
+	love.graphics.setLineStyle("rough")
 	play_mgr = Play()
-	play_mgr:add(Player('player', 200, 200))
-
-	for i = 1, 10 do 
-		play_mgr:add(Zombie(_, love.math.random(0, 800), love.math.random(0, 600)))
-	end
 end
 
 function love.update(dt)
@@ -29,4 +32,8 @@ end
 
 function love.draw()
 	play_mgr:draw()
+end
+
+function love.keypressed(key)
+	if key == "escape" then love.load() end
 end
