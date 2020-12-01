@@ -2,7 +2,7 @@ Spring = Class:extend('Spring')
 
 function Spring:new(value, k, d)
     self.target_val = value
-    self.val = value
+    self.val        = value
 
     self.k = k or 100
     self.d = d or 10

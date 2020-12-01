@@ -1,12 +1,12 @@
 Player = Entity:extend('Player')
 
 function Player:new(id, x, y)
-	self.super.new(self, id, x, y)
+	self.super.new(self, {id = id, x = x, y = y})
 
-	self.r = 25
-	self.speed = 300
-	self.direction = Vec2(0, 1)
-	self.bullet_reload_timer = 0.05
+	self.r           = 25
+	self.speed       = 300
+	self.direction   = Vec2(0, 1)
+	self.reload_time = 0.10
 end
 
 function Player:update(dt)
@@ -26,7 +26,7 @@ function Player:update(dt)
 			local _bullet_spawn_position = Vec2(self.x, self.y) + self.direction * 25
 			self.mgr:add(Bullet(_, _bullet_spawn_position.x, _bullet_spawn_position.y, self.direction))
 			self.mgr.camera:shake(30)
-			self.timer:after(self.bullet_reload_timer, function() end, 'bullet_reload')
+			self.timer:after(self.reload_time, function() end, 'bullet_reload')
 		end
 	end
 end

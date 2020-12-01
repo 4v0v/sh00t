@@ -1,13 +1,12 @@
 Enemy = Entity:extend('Enemy')
 
 function Enemy:new(id, x, y)
-	self.super.new(self, id, x, y)
+	self.super.new(self, {id = id, x = x, y = y})
 
-	self.hp = 10
-	self.r = 25
-	self.speed = 300
+	self.hp        = 10
+	self.r         = 25
+	self.speed     = 300
 	self.direction = Vec2(0, 1)
-
 	self.red_color = 0
 end
 

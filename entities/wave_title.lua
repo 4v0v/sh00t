@@ -1,10 +1,11 @@
 Wave_title = Entity:extend('Wave_title')
 
 function Wave_title:new(id, x, y, wave_number, on_kill)
-	self.super.new(self, id, x, y)
+	self.super.new(self, {id = id, x = x, y = y, out_cam = true})
+
 	self.wave_number = wave_number
-	self.alpha = 0
-	self.on_kill = on_kill
+	self.alpha       = 0
+	self.on_kill     = on_kill
 
 	self.timer:tween(1, self, {alpha = 1}, 'linear', _, function()
 		self.timer:after(1, function() 
@@ -20,7 +21,7 @@ function Wave_title:update(dt)
 	self.super.update(self, dt)
 end
 
-function Wave_title:draw_outside_camera()
+function Wave_title:draw()
 	lg.setColor(1, 1, 1, self.alpha)
 	lg.print("wave " .. self.wave_number, self.x, self.y, _, 5, 5)
 	lg.setColor(1,1,1,1)

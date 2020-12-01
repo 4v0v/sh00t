@@ -1,13 +1,13 @@
 Text = Entity:extend('Text')
 
 function Text:new(id, x, y, text, opts)
-	self.super.new(self, id, x, y)
+	self.super.new(self, {id = id, x = x, y = y, out_cam = get(opts, 'out_cam')})
 
-	self.text   = text
-	self.scale  = opts and opts.scale or 1
-	self.radian = opts and opts.radian or 0
-	self.color  = opts and opts.color or {1, 1, 1, 1}
-	self.outside_camera = opts and opts.outside_camera or false
+	self.text     = lg.newText(get(opts, 'font', lg.getFont()), text)
+	self.scale    = get(opts, 'scale', 1)
+	self.radian   = get(opts, 'radian', 0)
+	self.color    = get(opts, 'color', {1, 1, 1})
+	self.centered = get(opts, 'centered', false)
 end
 
 function Text:update(dt)
@@ -15,21 +15,15 @@ function Text:update(dt)
 end
 
 function Text:draw()
-	if !self.outside_camera then 
-		lg.setColor(self.color)
-		lg.print(self.text, self.x, self.y, self.radian, self.scale)
-		lg.setColor(1, 1, 1, 1)
+	lg.setColor(self.color)
+	local offset_x, offset_y
+	if self.centered then
+		offset_x, offset_y = self.text:getWidth() / 2, self.text:getHeight() / 2
 	end
-end
-
-function Text:draw_outside_camera()
-	if self.outside_camera then 
-		lg.setColor(self.color)
-		lg.print(self.text, self.x, self.y, self.radian, self.scale)
-		lg.setColor(1, 1, 1, 1)
-	end
+	lg.draw(self.text, self.x, self.y, self.radian, self.scale, _, offset_x, offset_y)
+	lg.setColor(1, 1, 1, 1)
 end
 
 function Text:set_text(text)
-	self.text = text
+	self.text:set(text)
 end

@@ -1,13 +1,13 @@
 Trail = Entity:extend('Trail')
 
 function Trail:new(id, x, y, target_x, target_y, on_kill)
-	Trail.super.new(self, id, x, y)
+	Trail.super.new(self, {id = id, x = x, y = y})
 
 	self.target      = Vec2(target_x, target_y)
 	self.speed       = math.random(100)
 	self.turn_speed  = 0
 	self.on_kill     = on_kill
-	self.trail = {
+	self.trail       = {
 		position  = Vec2(x, y), 
 		direction = Vec2(math.random(-1, 1), math.random(-1, 1)):normalized(),
 		points    = {}

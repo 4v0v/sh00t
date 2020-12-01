@@ -1,18 +1,18 @@
-Play = Entity_Mgr:extend('Play')
+Play = Manager:extend('Play')
 
 function Play:new(id)
 	self.super.new(self, id)
 
-	self.wave_number = 1
+	self.wave_number  = 1
 	self.wave_enemies = 5
-	self.score = 0
-	self.state = 'waiting_wave_creation'
+	self.score        = 0
+	self.state        = 'waiting_wave_creation'
 
 	self:add(Player('player', 0, 0))
-	self:add(Text('score', 10, 10, '0', {scale = 3, outside_camera = true}))
-	self:add(Rectangle('not_move'  , 100, 100, 300, 300))
-	self:add(Rectangle('not_move_x', 450, 100, 600, 300, {line_width = 3}))
-	self:add(Rectangle('not_move_y', 100, 450, 300, 600, {line_width = 3}))
+	self:add(Text('score', 10, 10, '0', {scale = 3, out_cam = true, color = {0, 1, 1}}))
+	self:add(Rectangle('not_move'  , 100, 100, 300, 300, {z = 0, line_width = 10, color = {1, 1, 0, 0.4}}))
+	self:add(Rectangle('not_move_x', 450, 100, 600, 300, {z = 0, line_width = 10, color = {1, 0, 1, 0.4}}))
+	self:add(Rectangle('not_move_y', 100, 450, 300, 600, {z = 0, line_width = 10, color = {0, 1, 1, 0.4}}))
 
 	self:create_new_wave()
 end
@@ -36,14 +36,14 @@ function Play:update(dt)
 	elseif not_move_x && not_move_x:collide_with_point(player) then
 		local _, _y = not_move_x:center()
 		self.camera:follow(player.x, _y)
-		self.camera:zoom(0.8)
+		self.camera:zoom(1)
 	elseif not_move_y && not_move_y:collide_with_point(player) then
 		local _x, _ = not_move_y:center()
 		self.camera:follow(_x, player.y)
-		self.camera:zoom(2)
+		self.camera:zoom(1.8)
 	else
 		self.camera:follow(player.x, player.y)
-		self.camera:zoom(1)
+		self.camera:zoom(0.8)
 	end
 
 	for trails do 
@@ -85,9 +85,9 @@ end
 
 function Play:create_new_wave()
 	self.state = 'creating_wave'
-	self:add(Wave_title(_, 100, 100, self.wave_number, function()
+	self:add(Wave_title(_, lg.getWidth()/2, lg.getHeight()/2, self.wave_number, function()
 		for i = 1, self.wave_enemies do 
-			self:add(Enemy(_, 100, i * 100))
+			self:add(Enemy(_, math.random(1000), math.random(1000)))
 		end
 		self.state = 'playing_wave'
 	end))

@@ -21,6 +21,20 @@ function love.run()
 	end
 
 	function load()
+		require("libraries/monkey")
+		require("libraries/utils")
+		Class  = require("libraries/class")
+		Camera = require("libraries/camera")
+		Vec2   = require("libraries/vector")
+	
+		require_all("classes")
+		require_all("managers")
+		require_all("entities", {recursive = true})
+
+		lg.setDefaultFilter("nearest", "nearest")
+		lg.setLineStyle("rough")
+		lg.setBackgroundColor(.2, .2, .2, .2)
+
 		mgr = Play()
 	end
 	
@@ -33,25 +47,10 @@ function love.run()
 		mgr:draw()
 	end
 
-	require("libraries/monkey")
-	require("libraries/utils")
-	Class  = require("libraries/class")
-	Camera = require("libraries/camera")
-	Vec2   = require("libraries/vector")
-
-	require_all("classes")
-	require_all("managers")
-	require_all("entities", {recursive = true})
-
-	lg.setDefaultFilter("nearest", "nearest")
-	lg.setLineStyle("rough")
-
 	load()
-
 	love.timer.step()
 
 	return function()
-		-- EVENTS --
 		love.event.pump()
 		for name,a,b,c,d,e,f in love.event.poll() do
 			if name == 'quit'          then return 0 end
@@ -62,7 +61,6 @@ function love.run()
 			love.handlers[name](a,b,c,d,e,f)
 		end
 
-		-- UPDATE --
 		_ACCUMULATOR = _ACCUMULATOR + love.timer.step()
 		while _ACCUMULATOR >= _FIXED_TIMESTEP do
 				update(_FIXED_TIMESTEP)
@@ -70,7 +68,6 @@ function love.run()
 				_ACCUMULATOR = _ACCUMULATOR - _FIXED_TIMESTEP
 		end
 
-		-- DRAW --
 		lg.origin()
 		lg.clear(lg.getBackgroundColor())
 		draw()

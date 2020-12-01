@@ -1,13 +1,13 @@
 Rectangle = Entity:extend('Rectangle')
 
 function Rectangle:new(id, x, y, w, h, opts)
-	self.super.new(self, id, x, y)
-	self.w = w
-	self.h = h
-
-	self.line_width = opts and opts.line_width or 1
-	self.color      = opts and opts.color or {1, 1, 1, 1}
-	self.mode       = opts and opts.mode or 'line'
+	self.super.new(self, {id = id, x = x, y = y, z = get(opts, 'z'), out_cam = get(opts, 'out_cam')})
+	
+	self.w          = w
+	self.h          = h
+	self.line_width = get(opts, 'line_width', 1)
+	self.color      = get(opts, 'color', {1, 1, 1, 1})
+	self.mode       = get(opts, 'mode', 'line')
 end
 
 function Rectangle:update(dt)

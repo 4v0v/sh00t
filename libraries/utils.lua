@@ -4,6 +4,27 @@ function uid()
 	end) 
 end
 
+function get(object, path, default)
+	local value = object
+
+	if type(object) == 'table' then
+		if type(path) == 'table' then
+			local c = 1
+			while type(path[c]) ~= 'nil' do
+				if type(value) ~= 'table' then return default end
+				value = value[path[c]]
+				c = c + 1
+			end
+		elseif type(path) == 'string' then
+			local keys = {}
+			for match in (path..'.'):gmatch('(.-)%.') do table.insert(keys, match) end
+			return get(object, keys, default)
+		end
+	end
+
+	return value or default
+end
+
 function lerp(a, b, x) 
 	return a + (b - a) * x 
 end
@@ -34,9 +55,9 @@ function require_all(path, opts)
 end
 
 function table.size(t)
-	local n = 0 
-	for _ in pairs(t) do n = n + 1 end 
-	return n 
+	local s = 0 
+	for _ in pairs(t) do s = s + 1 end 
+	return s 
 end
 
 function table.keys(t) 
@@ -52,11 +73,27 @@ function table.values(t)
 end
 
 function table.print(t)
-	for k,v in pairs(t) do if type(v) == 'table' then 
-		local n = 0 for _ in pairs(v) do n = n + 1 end 
-		if n == 0 then print(k .. ' : {}') else print(k .. ' : {...}') end
-	end end
-	for k,v in pairs(t) do if type(v) ~= 'table' then print(k .. ' : ' .. tostring(v)) end end
+	if type(t) ~= 'table' then print(t) return end
+
+	local tables, functions, others = {}, {}, {}
+	for k, v in pairs(t) do 
+		if type(v) == 'table' then
+			local s = 0 for _ in pairs(v) do s = s + 1 end 
+			table.insert(tables, {key = k, size = s}) 
+		elseif type(v) == 'function' then 
+			table.insert(functions, {key = k})
+		else
+			table.insert(others, {key = k, value = v})
+		end
+	end
+
+	table.sort(tables,    function(a, b) return a.key < b.key end)
+	table.sort(functions, function(a, b) return a.key < b.key end)
+	table.sort(others,    function(a, b) return a.key < b.key end)
+
+	for k,v in pairs(tables)    do if v.size == 0 then print(v.key .. ' : {}') else print(v.key .. ' : {...}') end end
+	for k,v in pairs(functions) do print(v.key .. '()') end
+	for k,v in pairs(others)    do print(v.key .. ' : ' .. tostring(v.value)) end
 end
 
 function table.random_value(t) 

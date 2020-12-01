@@ -137,10 +137,30 @@ function Timer:tween(time, subject, target, method, tag, after)
 	return tag
 end
 
-function Timer:once(action, tag) return self:every(math.huge, action, tag) end
-function Timer:always(action, each, tag) return self:during(math.huge, action, each, tag) end
-function Timer:get(tag) return self.timers[tag] end
-function Timer:pause(tag) self.timers[tag].status = 'pause' end
-function Timer:play(tag) self.timers[tag].status = 'play' end
-function Timer:remove(tag) self.timers[tag] = nil end
-function Timer:destroy() self.timers = {} end
+function Timer:once(action, tag) 
+	return self:every(math.huge, action, tag) 
+end
+
+function Timer:always(action, each, tag)
+	return self:during(math.huge, action, each, tag) 
+end
+
+function Timer:get(tag) 
+	return self.timers[tag] 
+end
+
+function Timer:pause(tag) 
+	self.timers[tag].status = 'pause' 
+end
+
+function Timer:play(tag) 
+	self.timers[tag].status = 'play' 
+end
+
+function Timer:remove(tag) 
+	self.timers[tag] = nil 
+end
+
+function Timer:destroy() 
+	self.timers = {} 
+end
