@@ -21,7 +21,7 @@ function Wave_title:update(dt)
 end
 
 function Wave_title:draw_outside_camera()
-	love.graphics.setColor(1, 1, 1, self.alpha)
-	love.graphics.print("wave " .. self.wave_number, self.x, self.y, _, 5, 5)
-	love.graphics.setColor(1,1,1,1)
+	lg.setColor(1, 1, 1, self.alpha)
+	lg.print("wave " .. self.wave_number, self.x, self.y, _, 5, 5)
+	lg.setColor(1,1,1,1)
 end

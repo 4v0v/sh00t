@@ -15,11 +15,11 @@ function Rectangle:update(dt)
 end
 
 function Rectangle:draw()
-	love.graphics.setColor(self.color)
-	love.graphics.setLineWidth(self.line_width)
-	love.graphics.rectangle(self.mode, self.x, self.y, self.w, self.h)
-	love.graphics.setColor(1, 1, 1, 1)
-	love.graphics.setLineWidth(1)
+	lg.setColor(self.color)
+	lg.setLineWidth(self.line_width)
+	lg.rectangle(self.mode, self.x, self.y, self.w, self.h)
+	lg.setColor(1, 1, 1, 1)
+	lg.setLineWidth(1)
 end
 
 function Rectangle:center()

@@ -16,17 +16,17 @@ end
 
 function Text:draw()
 	if !self.outside_camera then 
-		love.graphics.setColor(self.color)
-		love.graphics.print(self.text, self.x, self.y, self.radian, self.scale)
-		love.graphics.setColor(1, 1, 1, 1)
+		lg.setColor(self.color)
+		lg.print(self.text, self.x, self.y, self.radian, self.scale)
+		lg.setColor(1, 1, 1, 1)
 	end
 end
 
 function Text:draw_outside_camera()
 	if self.outside_camera then 
-		love.graphics.setColor(self.color)
-		love.graphics.print(self.text, self.x, self.y, self.radian, self.scale)
-		love.graphics.setColor(1, 1, 1, 1)
+		lg.setColor(self.color)
+		lg.print(self.text, self.x, self.y, self.radian, self.scale)
+		lg.setColor(1, 1, 1, 1)
 	end
 end
 

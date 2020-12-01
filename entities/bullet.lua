@@ -21,6 +21,6 @@ end
 
 function Bullet:draw()
 	self.super.draw(self)
-	love.graphics.setColor(1, 1, 1)
-	love.graphics.circle('fill', self.x, self.y, self.r)
+	lg.setColor(1, 1, 1)
+	lg.circle('fill', self.x, self.y, self.r)
 end

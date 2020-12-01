@@ -47,19 +47,19 @@ function Trail:update(dt)
 end
 
 function Trail:draw()
-	love.graphics.setLineWidth(3)
+	lg.setLineWidth(3)
 
 	for i = 1, #self.trail.points do 
 		if #self.trail.points > i +1 then 
-			love.graphics.setColor(1,0,0,1)
-			love.graphics.line(self.trail.points[i].x +2, self.trail.points[i].y +2, self.trail.points[i+1].x +2 , self.trail.points[i+1].y +2)
-			love.graphics.setColor(1,1,1,1)
-			love.graphics.line(self.trail.points[i].x, self.trail.points[i].y, self.trail.points[i+1].x, self.trail.points[i+1].y)
+			lg.setColor(1,0,0,1)
+			lg.line(self.trail.points[i].x +2, self.trail.points[i].y +2, self.trail.points[i+1].x +2 , self.trail.points[i+1].y +2)
+			lg.setColor(1,1,1,1)
+			lg.line(self.trail.points[i].x, self.trail.points[i].y, self.trail.points[i+1].x, self.trail.points[i+1].y)
 		end
 	end
 
-	love.graphics.setLineWidth(1)
-	love.graphics.setColor(1,1,1,1)
+	lg.setLineWidth(1)
+	lg.setColor(1,1,1,1)
 end
 
 function Trail:set_target(x, y) self.target.x, self.target.y = x, y  end

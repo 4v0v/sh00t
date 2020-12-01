@@ -39,11 +39,11 @@ end
 
 function Enemy:draw()
 	self.super.draw(self)
-	love.graphics.setColor(self.red_color, 1 - self.red_color, 0)
-	love.graphics.circle('fill', self.x, self.y, self.r)
+	lg.setColor(self.red_color, 1 - self.red_color, 0)
+	lg.circle('fill', self.x, self.y, self.r)
 	
-	love.graphics.setColor(0, 1, 1)
-	love.graphics.line(self.x, self.y, self.x + self.direction.x * 50, self.y + self.direction.y * 50)
+	lg.setColor(0, 1, 1)
+	lg.line(self.x, self.y, self.x + self.direction.x * 50, self.y + self.direction.y * 50)
 
-	love.graphics.setColor(1, 1, 1)
+	lg.setColor(1, 1, 1)
 end
