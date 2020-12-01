@@ -10,7 +10,7 @@ function Play:new(id)
 
 	self:add(Player('player', 0, 0))
 	self:add(Text('score', 10, 10, '0', {scale = 3, outside_camera = true}))
-	self:add(Rectangle('not_move'  , 100, 100, 300, 300, {line_width = 3}))
+	self:add(Rectangle('not_move'  , 100, 100, 300, 300))
 	self:add(Rectangle('not_move_x', 450, 100, 600, 300, {line_width = 3}))
 	self:add(Rectangle('not_move_y', 100, 450, 300, 600, {line_width = 3}))
 

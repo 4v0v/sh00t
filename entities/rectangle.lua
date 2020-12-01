@@ -5,9 +5,9 @@ function Rectangle:new(id, x, y, w, h, opts)
 	self.w = w
 	self.h = h
 
-	self.line_width = opts.line_width or 1
-	self.color      = opts.color or {1, 1, 1, 1}
-	self.mode       = opts.mode or 'line'
+	self.line_width = opts and opts.line_width or 1
+	self.color      = opts and opts.color or {1, 1, 1, 1}
+	self.mode       = opts and opts.mode or 'line'
 end
 
 function Rectangle:update(dt)

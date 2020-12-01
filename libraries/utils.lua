@@ -17,6 +17,22 @@ function clamp(low, n, high)
 	return math.min(math.max(low, n), high) 
 end
 
+function require_all(path, opts)
+	local items = love.filesystem.getDirectoryItems(path)
+	for _, item in pairs(items) do
+		if love.filesystem.getInfo(path .. '/' .. item, 'file') then 
+			require(path .. '/' .. item:gsub('.lua', '')) 
+		end
+	end
+	if opts and opts.recursive then 
+		for _, item in pairs(items) do
+			if love.filesystem.getInfo(path .. '/' .. item, 'directory') then 
+				require_all(path .. '/' .. item, {recursive = true}) 
+			end
+		end
+	end
+end
+
 function table.size(t)
 	local n = 0 
 	for _ in pairs(t) do n = n + 1 end 
