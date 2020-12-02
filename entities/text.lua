@@ -20,7 +20,7 @@ function Text:draw()
 	if self.centered then
 		offset_x, offset_y = self.text:getWidth() / 2, self.text:getHeight() / 2
 	end
-	lg.draw(self.text, self.x, self.y, self.radian, self.scale, _, offset_x, offset_y)
+	lg.draw(self.text, self.pos.x, self.pos.y, self.radian, self.scale, _, offset_x, offset_y)
 	lg.setColor(1, 1, 1, 1)
 end
 

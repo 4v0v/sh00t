@@ -100,5 +100,44 @@ function Manager:foreach(type, func)
 	end 
 end
 
-function Manager:enter() end
-function Manager:leave() end
+function Manager:enter() 
+end
+
+function Manager:leave() 
+end
+
+function Manager:after(...)
+	self.timer:after(...)
+end
+
+function Manager:tween(...)
+	self.timer:tween(...)
+end
+
+function Manager:every(...)
+	self.timer:every(...)
+end
+
+function Manager:during(...)
+	self.timer:during(...)
+end
+
+function Manager:once(...)
+	self.timer:once(...)
+end
+
+function Manager:always(...)
+	self.timer:always(...)
+end
+
+function Manager:zoom(...)
+	self.camera:zoom(...)
+end
+
+function Manager:shake(...)
+	self.camera:shake(...)
+end
+
+function Manager:follow(...)
+	self.camera:follow(...)
+end

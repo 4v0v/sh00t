@@ -3,43 +3,35 @@ Trail = Entity:extend('Trail')
 function Trail:new(id, x, y, target_x, target_y, on_kill)
 	Trail.super.new(self, {id = id, x = x, y = y})
 
-	self.target      = Vec2(target_x, target_y)
-	self.speed       = math.random(100)
-	self.turn_speed  = 0
-	self.on_kill     = on_kill
-	self.trail       = {
-		position  = Vec2(x, y), 
-		direction = Vec2(math.random(-1, 1), math.random(-1, 1)):normalized(),
-		points    = {}
-	}
+	self.target     = Vec2(target_x, target_y)
+	self.on_kill    = on_kill
+	self.points     = {}
+	self.speed      = math.random(100)
+	self.turn_speed = 0
+	self.direction  = Vec2(math.random(-1, 1), math.random(-1, 1)):normalized()
+
 	
-	for 10 do 
-		table.insert( self.trail.points, {x = self.trail.position.x, y = self.trail.position.y})
-	end
+	for 10 do table.insert( self.points, {x = self.pos.x, y = self.pos.y}) end
 
 	self.timer:tween(0.5, self, {speed = 1500}, 'linear')
-	self.timer:tween(1, self, {turn_speed = 5}, 'out-quad')
+	self.timer:tween(1, self, {turn_speed = 80}, 'out-quad')
 end
 
 function Trail:update(dt)
 	Trail:super().update(self, dt)
 
-	local _target_direction = (self.target - self.trail.position):normalized()
-	local direction_difference = _target_direction - self.trail.direction
-	self.trail.direction += (direction_difference * (self.turn_speed / 100))
-	self.trail.position  += self.trail.direction * self.speed * dt
+	local _target_direction = (self.target - self.pos):normalized()
+	local direction_difference = _target_direction - self.direction
+	self.direction += (direction_difference * (self.turn_speed * dt))
+	self.pos       += self.direction * self.speed * dt
 
-	table.remove( self.trail.points )
-	local _point = {
-		x = math.ceil(self.trail.position['x']), 
-		y = math.ceil(self.trail.position['y']),
-	}
-	table.insert( self.trail.points,1, _point)
+	table.remove( self.points )
+	table.insert( self.points,1, {x = math.ceil(self.pos.x), y = math.ceil(self.pos.y) })
 
-	if point_circ_collision(self.trail.position, {x = self.target.x, y = self.target.y, r = 20}) then 
-		table.remove( self.trail.points )
+	if point_circ_collision(self.pos, {x = self.target.x, y = self.target.y, r = 20}) then 
+		table.remove( self.points )
 
-		if #self.trail.points == 0 then
+		if #self.points == 0 then
 			self:on_kill()
 			self:kill()
 		end
@@ -49,17 +41,18 @@ end
 function Trail:draw()
 	lg.setLineWidth(3)
 
-	for i = 1, #self.trail.points do 
-		if #self.trail.points > i +1 then 
+	for i = 1, #self.points do 
+		if #self.points > i +1 then 
 			lg.setColor(1,0,0,1)
-			lg.line(self.trail.points[i].x +2, self.trail.points[i].y +2, self.trail.points[i+1].x +2 , self.trail.points[i+1].y +2)
+			lg.line(self.points[i].x +2, self.points[i].y +2, self.points[i+1].x +2 , self.points[i+1].y +2)
 			lg.setColor(1,1,1,1)
-			lg.line(self.trail.points[i].x, self.trail.points[i].y, self.trail.points[i+1].x, self.trail.points[i+1].y)
+			lg.line(self.points[i].x, self.points[i].y, self.points[i+1].x, self.points[i+1].y)
 		end
 	end
-
 	lg.setLineWidth(1)
 	lg.setColor(1,1,1,1)
 end
 
-function Trail:set_target(x, y) self.target.x, self.target.y = x, y  end
+function Trail:follow(x, y) 
+	self.target.x, self.target.y = x, y
+end

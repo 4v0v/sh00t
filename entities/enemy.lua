@@ -5,44 +5,38 @@ function Enemy:new(id, x, y)
 
 	self.hp        = 10
 	self.r         = 25
-	self.speed     = 300
-	self.direction = Vec2(0, 1)
 	self.red_color = 0
+
+	self.speed      = 200
+	self.turn_speed = 50
+	self.direction  = Vec2()
+	self.target     = Vec2()
 end
 
 function Enemy:update(dt)
 	self.super.update(self, dt)
 
-	local player = self.mgr:get('player')
-	if player then 
-		local _player_direction = Vec2(player.x - self.x, player.y - self.y):normalized()
-		self.direction = self.direction:lerp(_player_direction, .05):normalized()
-	end
+	local _target_direction = (self.target - self.pos):normalized()
+	local _direction_diff   = _target_direction - self.direction
+	self.direction += (_direction_diff * (self.turn_speed * dt))
+	self.pos       += self.direction * self.speed * dt
+end
 
-	local _position = Vec2(self.x, self.y)
-	local _new_position = _position + self.direction * self.speed * dt
 
-	self.x = _new_position.x
-	self.y = _new_position.y
+function Enemy:draw()
+	lg.setColor(self.red_color, 1 - self.red_color, 0)
+	lg.circle('fill', self.pos.x, self.pos.y, self.r)
+	lg.setColor(0, 1, 1)
+	lg.line(self.pos.x, self.pos.y, self.pos.x + self.direction.x * 50, self.pos.y + self.direction.y * 50)
+	lg.setColor(1, 1, 1)
+end
+
+function Enemy:follow(x, y) 
+	self.target.x, self.target.y = x, y
 end
 
 function Enemy:hit()
 	self.red_color = 1
-
-	if self.timer:get('hit') then 
-		self.timer:remove('hit')
-	end
-
-	self.timer:tween(.1, self, {red_color = 0}, 'linear', 'hit')
-end
-
-function Enemy:draw()
-	self.super.draw(self)
-	lg.setColor(self.red_color, 1 - self.red_color, 0)
-	lg.circle('fill', self.x, self.y, self.r)
-	
-	lg.setColor(0, 1, 1)
-	lg.line(self.x, self.y, self.x + self.direction.x * 50, self.y + self.direction.y * 50)
-
-	lg.setColor(1, 1, 1)
+	if self.timer:get('hit') then self.timer:remove('hit') end
+	self:tween(.1, self, {red_color = 0}, 'linear', 'hit')
 end

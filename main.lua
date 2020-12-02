@@ -1,3 +1,26 @@
+-- TODO
+-- [ ] Make shop between waves, can buy health + shoot speed bonus + move speed
+-- [ ] Make shop between waves
+-- [ ] Make enemies make damage to player
+-- [ ] Show enemies hp
+-- [ ] Make enemy explode when dead
+-- [ ] Combiner wave_title & text && faire gérer les effets dans text entity
+-- [ ] Faire que les ennemis & le joueur soient physiques
+-- [ ] Dessiner les entités suivant des couches
+-- [ ] Boss wave every 5 waves
+-- [ ] Multiple weapon types
+-- [ ] Better font
+-- [ ] SFX
+-- [ ] Bg music
+-- [ ] Dialogue box
+-- [ ] Dash with stamina reloadable
+
+--ENEMIES
+-- [/] spider inverse kinematic
+-- [ ] muscular hydrostats
+-- [ ] Oeil qui cligne
+-- [ ] Lezard
+
 function love.run()
 	lg, la, lm, lk = love.graphics, love.audio, love.mouse, love.keyboard
 	local _INPUT = {_CUR = {}, _PRE = {}}
@@ -35,7 +58,8 @@ function love.run()
 		lg.setLineStyle("rough")
 		lg.setBackgroundColor(.2, .2, .2, .2)
 
-		mgr = Play()
+		-- mgr = Play()
+		mgr = Kinematics()
 	end
 	
 	function update(dt)

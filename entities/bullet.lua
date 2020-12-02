@@ -12,15 +12,11 @@ end
 
 function Bullet:update(dt)
 	self.super.update(self, dt)
-
-	local position_vector = Vec2(self.x, self.y) + self.direction * self.move_speed * dt
-
-	self.x = position_vector.x
-	self.y = position_vector.y
+	self.pos += self.direction * self.move_speed * dt
 end
 
 function Bullet:draw()
 	self.super.draw(self)
 	lg.setColor(1, 1, 1)
-	lg.circle('fill', self.x, self.y, self.r)
+	lg.circle('fill', self.pos.x, self.pos.y, self.r)
 end

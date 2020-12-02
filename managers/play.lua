@@ -10,7 +10,7 @@ function Play:new(id)
 
 	self:add(Player('player', 0, 0))
 	self:add(Text('score', 10, 10, '0', {scale = 3, out_cam = true, color = {0, 1, 1}}))
-	self:add(Rectangle('not_move'  , 100, 100, 300, 300, {z = 0, line_width = 10, color = {1, 1, 0, 0.4}}))
+	self:add(Rectangle('not_move'  , 100, 100, 300, 300, {z = 0, line_width = 10, centered = true, color = {1, 1, 0, 0.4}}))
 	self:add(Rectangle('not_move_x', 450, 100, 600, 300, {z = 0, line_width = 10, color = {1, 0, 1, 0.4}}))
 	self:add(Rectangle('not_move_y', 100, 450, 300, 600, {z = 0, line_width = 10, color = {0, 1, 1, 0.4}}))
 
@@ -28,38 +28,47 @@ function Play:update(dt)
 	local trails     = self:get_all('Trail')
 	local bullets    = self:get_all('Bullet')
 	local enemies    = self:get_all('Enemy')
+	local spiders    = self:get_all('Spider')
 
-	if not_move && not_move:collide_with_point(player) then
+	if not_move && not_move:collide_with_point(player.pos) then
 		local _x, _y = not_move:center()
 		self.camera:follow(_x, _y)
 		self.camera:zoom(1.5)
-	elseif not_move_x && not_move_x:collide_with_point(player) then
+	elseif not_move_x && not_move_x:collide_with_point(player.pos) then
 		local _, _y = not_move_x:center()
-		self.camera:follow(player.x, _y)
+		self.camera:follow(player.pos.x, _y)
 		self.camera:zoom(1)
-	elseif not_move_y && not_move_y:collide_with_point(player) then
+	elseif not_move_y && not_move_y:collide_with_point(player.pos) then
 		local _x, _ = not_move_y:center()
-		self.camera:follow(_x, player.y)
+		self.camera:follow(_x, player.pos.y)
 		self.camera:zoom(1.8)
 	else
-		self.camera:follow(player.x, player.y)
+		self.camera:follow(player.pos.x, player.pos.y)
 		self.camera:zoom(0.8)
 	end
 
 	for trails do 
-		it:set_target(player.x, player.y)
+		it:follow(player.pos.x, player.pos.y)
+	end
+
+	for enemies do 
+		it:follow(player.pos.x, player.pos.y)
+	end
+
+	for spiders do 
+		it:follow(player.pos.x, player.pos.y)
 	end
 
 	for bullet in bullets do
 		for enemy in enemies do 
-			if point_circ_collision(bullet, enemy) then 
+			if point_circ_collision(bullet.pos, {x = enemy.pos.x, y = enemy.pos.y, r = enemy.r}) then 
 				self:kill(bullet.id)
 				if enemy.hp > 0 then 
 					enemy.hp -= 1
 					enemy:hit()
 				else 
 					for i = 1, math.random(3) do 
-						self:add(Trail(_, enemy.x, enemy.y, player.x, player.y, fn() 
+						self:add(Trail(_, enemy.pos.x, enemy.pos.y, player.pos.x, player.pos.y, fn() 
 							self.score += 1
 							score:set_text(tostring(self.score))
 						end))
@@ -79,16 +88,14 @@ function Play:update(dt)
 	end
 end
 
-function Play:draw()
-	self.super.draw(self)
-end
-
 function Play:create_new_wave()
 	self.state = 'creating_wave'
 	self:add(Wave_title(_, lg.getWidth()/2, lg.getHeight()/2, self.wave_number, function()
 		for i = 1, self.wave_enemies do 
 			self:add(Enemy(_, math.random(1000), math.random(1000)))
 		end
+		self:add(Spider(_, math.random(1000), math.random(1000)))
+
 		self.state = 'playing_wave'
 	end))
 end

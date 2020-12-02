@@ -39,16 +39,38 @@ function Camera:draw(func)
 	love.graphics.pop()
 end
 
-function Camera:follow(x, y) self.cam.target_x, self.cam.target_y = x or self.cam.target_x, y or self.cam.ty end
-function Camera:zoom(s) self.cam.target_s = s end
-function Camera:shake(s, r) self.shk.s, self.shk.r = s or 0 ,r or 0 end
+function Camera:follow(x, y) 
+	self.cam.target_x, self.cam.target_y = x or self.cam.target_x, y or self.cam.ty 
+end
 
-function Camera:getPosition() return self.cam.x, self.cam.y, self.cam.target_x, self.cam.ty end
-function Camera:getScale() return self.cam.s, self.cam.target_s end
+function Camera:zoom(s) 
+	self.cam.target_s = s 
+end
 
-function Camera:setSmoothness(sv) self.cam.sv = sv end
-function Camera:setScaleSmoothness(sv) self.cam.ssv = ssv end
-function Camera:setScale(s) self.cam.s, self.cam.target_s = s, s end
+function Camera:shake(s, r) 
+	self.shk.s, self.shk.r = s or 0 ,r or 0 
+end
+
+function Camera:getPosition() 
+	return self.cam.x, self.cam.y, self.cam.target_x, self.cam.ty 
+end
+
+function Camera:getScale() 
+	return self.cam.s, self.cam.target_s 
+end
+
+function Camera:setSmoothness(sv) 
+	self.cam.sv = sv 
+end
+
+function Camera:setScaleSmoothness(sv) 
+	self.cam.ssv = ssv 
+end
+
+function Camera:setScale(s) 
+	self.cam.s, self.cam.target_s = s, s 
+end
+
 function Camera:setPosition(x, y) 
 	self.cam.x, self.cam.target_x = x or self.cam.x, x or self.cam.target_x
 	self.cam.y, self.cam.target_y = y or self.cam.y, y or self.cam.target_y
