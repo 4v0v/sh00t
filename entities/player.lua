@@ -1,7 +1,7 @@
 Player = Entity:extend('Player')
 
-function Player:new(id, x, y)
-	self.super.new(self, {id = id, x = x, y = y})
+function Player:new(x, y)
+	self.super.new(self, { x = x, y = y})
 
 	self.r           = 25
 	self.speed       = 500
@@ -17,7 +17,7 @@ function Player:update(dt)
 	if     down("z") then self.pos.y = self.pos.y - self.speed * dt
 	elseif down("s") then self.pos.y = self.pos.y + self.speed * dt end
 
-	local _x, _y = self.mgr.camera:getMousePosition()
+	local _x, _y = self.room.camera:getMousePosition()
 
 	local mouse_direction = (Vec2(_x, _y) - self.pos):normalized()
 	self.direction        = self.direction:lerp(mouse_direction, .2):normalized()
@@ -25,8 +25,8 @@ function Player:update(dt)
 	if down('space') then 
 		if not self.timer:get('bullet_reload') then 
 			local _bullet_spawn_position = self.pos + self.direction * 25
-			self.mgr:add(Bullet(_, _bullet_spawn_position.x, _bullet_spawn_position.y, self.direction))
-			self.mgr.camera:shake(30)
+			self.room:add(Bullet(_bullet_spawn_position.x, _bullet_spawn_position.y, self.direction))
+			self.room.camera:shake(30)
 			self.timer:after(self.reload_time, function() end, 'bullet_reload')
 		end
 	end

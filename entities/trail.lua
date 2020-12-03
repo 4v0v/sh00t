@@ -1,7 +1,7 @@
 Trail = Entity:extend('Trail')
 
-function Trail:new(id, x, y, target_x, target_y, on_kill)
-	Trail.super.new(self, {id = id, x = x, y = y})
+function Trail:new(x, y, target_x, target_y, on_kill)
+	Trail.super.new(self, { x = x, y = y})
 
 	self.target     = Vec2(target_x, target_y)
 	self.on_kill    = on_kill
@@ -18,7 +18,7 @@ function Trail:new(id, x, y, target_x, target_y, on_kill)
 end
 
 function Trail:update(dt)
-	Trail:super().update(self, dt)
+	Trail.super().update(self, dt)
 
 	local _target_direction = (self.target - self.pos):normalized()
 	local direction_difference = _target_direction - self.direction

@@ -1,7 +1,7 @@
 Enemy = Entity:extend('Enemy')
 
-function Enemy:new(id, x, y)
-	self.super.new(self, {id = id, x = x, y = y})
+function Enemy:new(x, y)
+	self.super.new(self, { x = x, y = y})
 
 	self.hp        = 10
 	self.r         = 25

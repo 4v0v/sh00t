@@ -1,0 +1,47 @@
+Kinematics = Room:extend('Kinematics')
+
+function Kinematics:new(id)
+	self.super.new(self, id)
+
+	local segment1  = self:add('segment1', Segment( 0, 0, 10, math.rad(45)))
+	local segment2  = self:add('segment2', Segment( segment1.b.x, segment1.b.y, 15, math.rad(45)))
+	local segment3  = self:add('segment3', Segment( segment2.b.x, segment2.b.y, 15, math.rad(45)))
+	local segment4  = self:add('segment4', Segment( segment3.b.x, segment3.b.y, 15, math.rad(45)))
+	local segment5  = self:add('segment5', Segment( segment4.b.x, segment4.b.y, 15, math.rad(45)))
+	local segment6  = self:add('segment6', Segment( segment5.b.x, segment5.b.y, 15, math.rad(45)))
+	local segment7  = self:add('segment7', Segment( segment6.b.x, segment6.b.y, 15, math.rad(45)))
+	local segment8  = self:add('segment8', Segment( segment7.b.x, segment7.b.y, 15, math.rad(45)))
+	local segment9  = self:add('segment9', Segment( segment8.b.x, segment8.b.y, 15, math.rad(45)))
+	local segment10 = self:add('segment10', Segment( segment9.b.x, segment9.b.y, 15, math.rad(45)))
+end
+
+function Kinematics:update(dt)
+	self.super.update(self, dt)
+
+	local mouse_x, mouse_y  = self.camera:getMousePosition()
+	local spider = self:get('spider')
+	local lizard = self:get('lizard')
+	local segment1  = self:get('segment1')
+	local segment2  = self:get('segment2')
+	local segment3  = self:get('segment3')
+	local segment4  = self:get('segment4')
+	local segment5  = self:get('segment5')
+	local segment6  = self:get('segment6')
+	local segment7  = self:get('segment7')
+	local segment8  = self:get('segment8')
+	local segment9  = self:get('segment9')
+	local segment10 = self:get('segment10')
+
+	local _lerp_mouse = segment1.pos:lerp(Vec2(mouse_x, mouse_y), 0.1)
+
+	segment1:follow(_lerp_mouse.x, _lerp_mouse.y) 
+	segment2:follow(segment1.b.x, segment1.b.y)
+	segment3:follow(segment2.b.x, segment2.b.y)
+	segment4:follow(segment3.b.x, segment3.b.y)
+	segment5:follow(segment4.b.x, segment4.b.y)
+	segment6:follow(segment5.b.x, segment5.b.y)
+	segment7:follow(segment6.b.x, segment6.b.y)
+	segment8:follow(segment7.b.x, segment7.b.y)
+	segment9:follow(segment8.b.x, segment8.b.y)
+	segment10:follow(segment9.b.x, segment9.b.y)
+end

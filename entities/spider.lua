@@ -1,13 +1,14 @@
 Spider = Entity:extend('Spider')
 
-function Spider:new(id, x, y)
-	self.super.new(self, {id = id, x = x, y = y})
+function Spider:new(x, y)
+	self.super.new(self, { x = x, y = y})
 
 	self.hp         = 30
 	self.speed      = 100
 	self.turn_speed = 50
 	self.dir        = Vec2()
 	self.target     = Vec2()
+	self.eye_width  = 25
 
 	self.legs = {
 		self:createLeg(Vec2(-55, 0), 75, 200, 45, true),
@@ -20,6 +21,11 @@ function Spider:new(id, x, y)
 		self:createLeg(Vec2(55, 0), 75, 200, 46),
 	}
 
+	self:every({1, 10}, function() 
+		self:tween(0.05, self, {eye_width = 0}, 'linear', _, function()
+			self:tween(0.05, self, {eye_width = 25}, 'linear')
+		end)
+	end)
 end
 
 function Spider:update(dt)
@@ -28,20 +34,30 @@ function Spider:update(dt)
 	local _target_dir = (self.target - self.pos):normalized()
 	local _diff       = _target_dir - self.dir
 	self.dir += _diff * self.turn_speed * dt
+
 	self.pos += self.dir * self.speed * dt
 
 	for self.legs do self:updateLeg(it) end
 end
 
 function Spider:draw()
-	lg.setColor(1, 1, 1, .6)
-	lg.circle("fill", self.pos.x, self.pos.y, 50)
 	for self.legs do
-		lg.setColor(1, 1, 1)
 		lg.line(it.joint1.x, it.joint1.y, it.joint2.x, it.joint2.y)
 		lg.circle("fill", it.foot.x, it.foot.y, 5)
 		lg.line(it.joint2.x, it.joint2.y, it.foot.x, it.foot.y)
 	end
+
+	lg.setColor(1, 1, 1, .6)
+	lg.circle("fill", self.pos.x, self.pos.y, 50)
+
+	lg.setColor(0, 0, 0)
+	lg.ellipse("fill", self.pos.x, self.pos.y, self.eye_width, 45)
+
+	lg.setColor(1, 1, 1)
+	local _target = (self.target - self.pos) / 10
+	if _target:len() > 20 then _target = _target:normalized() * 20 end
+	lg.circle("fill", self.pos.x + _target.x, self.pos.y + _target.y, 10)
+
 	lg.setColor(1, 1, 1)
 end
 
@@ -76,7 +92,7 @@ function Spider:updateLeg(leg)
 	local targetPos = self:getTargetPos(leg.offset)
 	local targetDiff = (targetPos - leg.targetPos):length()
 
-	-- to achieve a leg animation only update the leg position when
+	-- to achieve a leg animation only update the leg position
 	-- when a specified threshold/distance is reached (updateDist)
 	if targetDiff > leg.updateDist then
 		leg.curTargetPos = leg.targetPos

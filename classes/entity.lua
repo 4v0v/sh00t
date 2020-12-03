@@ -3,9 +3,9 @@ Entity = Class:extend('Entity')
 function Entity:new(opts)
 	self.timer   = Timer()
 	self.dead    = false
-	self.mgr     = nil
+	self.room    = nil
+	self.id      = nil
 
-	self.id      = get(opts, 'id', uid())
 	self.type    = get(opts, 'type', self:class())
 	self.pos     = Vec2(get(opts, 'x', 0), get(opts, 'y', 0))
 	self.z       = get(opts, 'z', 10)

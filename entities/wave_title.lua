@@ -1,7 +1,7 @@
 Wave_title = Entity:extend('Wave_title')
 
-function Wave_title:new(id, x, y, wave_number, on_kill)
-	self.super.new(self, {id = id, x = x, y = y, out_cam = true})
+function Wave_title:new(x, y, wave_number, on_kill)
+	self.super.new(self, { x = x, y = y, out_cam = true})
 
 	self.wave_number = wave_number
 	self.alpha       = 0

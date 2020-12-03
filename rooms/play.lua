@@ -1,4 +1,4 @@
-Play = Manager:extend('Play')
+Play = Room:extend('Play')
 
 function Play:new(id)
 	self.super.new(self, id)
@@ -8,11 +8,11 @@ function Play:new(id)
 	self.score        = 0
 	self.state        = 'waiting_wave_creation'
 
-	self:add(Player('player', 0, 0))
-	self:add(Text('score', 10, 10, '0', {scale = 3, out_cam = true, color = {0, 1, 1}}))
-	self:add(Rectangle('not_move'  , 100, 100, 300, 300, {z = 0, line_width = 10, centered = true, color = {1, 1, 0, 0.4}}))
-	self:add(Rectangle('not_move_x', 450, 100, 600, 300, {z = 0, line_width = 10, color = {1, 0, 1, 0.4}}))
-	self:add(Rectangle('not_move_y', 100, 450, 300, 600, {z = 0, line_width = 10, color = {0, 1, 1, 0.4}}))
+	self:add('player', Player( 0, 0))
+	self:add('score', Text( 10, 10, '0', {scale = 3, out_cam = true, color = {0, 1, 1}}))
+	self:add('not_move', Rectangle(100, 100, 300, 300, {z = 0, line_width = 10, centered = true, color = {1, 1, 0, 0.4}}))
+	self:add('not_move_x', Rectangle( 450, 100, 600, 300, {z = 0, line_width = 10, color = {1, 0, 1, 0.4}}))
+	self:add('not_move_y', Rectangle( 100, 450, 300, 600, {z = 0, line_width = 10, color = {0, 1, 1, 0.4}}))
 
 	self:create_new_wave()
 end
@@ -68,7 +68,7 @@ function Play:update(dt)
 					enemy:hit()
 				else 
 					for i = 1, math.random(3) do 
-						self:add(Trail(_, enemy.pos.x, enemy.pos.y, player.pos.x, player.pos.y, fn() 
+						self:add(Trail(enemy.pos.x, enemy.pos.y, player.pos.x, player.pos.y, fn() 
 							self.score += 1
 							score:set_text(tostring(self.score))
 						end))
@@ -90,11 +90,11 @@ end
 
 function Play:create_new_wave()
 	self.state = 'creating_wave'
-	self:add(Wave_title(_, lg.getWidth()/2, lg.getHeight()/2, self.wave_number, function()
+	self:add(Wave_title(lg.getWidth()/2, lg.getHeight()/2, self.wave_number, function()
 		for i = 1, self.wave_enemies do 
-			self:add(Enemy(_, math.random(1000), math.random(1000)))
+			self:add(Enemy(math.random(1000), math.random(1000)))
 		end
-		self:add(Spider(_, math.random(1000), math.random(1000)))
+		self:add(Spider(math.random(1000), math.random(1000)))
 
 		self.state = 'playing_wave'
 	end))

@@ -1,7 +1,7 @@
 Bullet = Entity:extend('Bullet')
 
-function Bullet:new(id, x, y, direction)
-	self.super.new(self, {id = id, x = x, y = y})
+function Bullet:new(x, y, direction)
+	self.super.new(self, {x = x, y = y})
 
 	self.r          = 5
 	self.move_speed = 800

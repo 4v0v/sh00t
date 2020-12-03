@@ -51,24 +51,24 @@ function love.run()
 		Vec2   = require("libraries/vector")
 	
 		require_all("classes")
-		require_all("managers")
+		require_all("rooms")
 		require_all("entities", {recursive = true})
 
 		lg.setDefaultFilter("nearest", "nearest")
 		lg.setLineStyle("rough")
 		lg.setBackgroundColor(.2, .2, .2, .2)
 
-		-- mgr = Play()
-		mgr = Kinematics()
+		room = Play()
+		-- room = Kinematics()
 	end
 	
 	function update(dt)
-		mgr:update(dt)
+		room:update(dt)
 		if pressed("escape") then load() end
 	end
 	
 	function draw()
-		mgr:draw()
+		room:draw()
 	end
 
 	load()
