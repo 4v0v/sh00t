@@ -48,6 +48,7 @@ function love.run()
 		require("libraries/utils")
 		Class  = require("libraries/class")
 		Camera = require("libraries/camera")
+		Timer  = require("libraries/timer")
 		Vec2   = require("libraries/vector")
 	
 		require_all("classes")
@@ -58,8 +59,8 @@ function love.run()
 		lg.setLineStyle("rough")
 		lg.setBackgroundColor(.2, .2, .2, .2)
 
-		room = Play()
-		-- room = Kinematics()
+		-- room = Play()
+		room = Kinematics()
 	end
 	
 	function update(dt)

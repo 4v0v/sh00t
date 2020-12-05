@@ -1,4 +1,4 @@
-Timer = Class:extend('Timer')
+local Timer = {}
 
 local _t = {
 	out     = function(f) return function(x, ...) return 1 - f(1-x, ...) end end,
@@ -33,8 +33,10 @@ local function _calc_tween(subject, target, out)
 	return out
 end
 
-function Timer:new() 
-	self.timers = {}
+function Timer:new()
+	local obj = {}
+		obj.timers = {}
+	return setmetatable(obj, {__index = Timer})
 end
 
 function Timer:update(dt)
@@ -164,3 +166,5 @@ end
 function Timer:destroy() 
 	self.timers = {} 
 end
+
+return setmetatable({}, {__call = Timer.new})
