@@ -1,7 +1,7 @@
 Play = Room:extend('Play')
 
 function Play:new(id)
-	self.super.new(self, id)
+	Play.super.new(self, id)
 
 	self.wave_number  = 1
 	self.wave_enemies = 5
@@ -18,7 +18,7 @@ function Play:new(id)
 end
 
 function Play:update(dt)
-	self.super.update(self, dt)
+	Play.super.update(self, dt)
 
 	local player     = self:get('player')
 	local score      = self:get('score')

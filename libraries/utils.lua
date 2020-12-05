@@ -153,3 +153,11 @@ end
 function rect_center(r)
 	return r.x + r.w / 2, r.y + r.h / 2
 end
+
+function angle_between_3_points(p1, p2, p3)
+	local p1c  = math.sqrt((p2.x-p1.x)^2 + (p2.y-p1.y)^2) 
+	local p3c  = math.sqrt((p2.x-p3.x)^2 + (p2.y-p3.y)^2)
+	local p1p3 = math.sqrt((p3.x-p1.x)^2 + (p3.y-p1.y)^2)
+	
+	return math.acos((p3c*p3c+p1c*p1c-p1p3*p1p3)/(2*p3c*p1c))
+end

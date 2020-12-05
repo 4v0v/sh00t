@@ -1,7 +1,7 @@
 Text = Entity:extend('Text')
 
 function Text:new(x, y, text, opts)
-	self.super.new(self, { x = x, y = y, out_cam = get(opts, 'out_cam')})
+	Text.super.new(self, { x = x, y = y, out_cam = get(opts, 'out_cam')})
 
 	self.text     = lg.newText(get(opts, 'font', lg.getFont()), text)
 	self.scale    = get(opts, 'scale', 1)
@@ -11,7 +11,7 @@ function Text:new(x, y, text, opts)
 end
 
 function Text:update(dt)
-	self.super.update(self, dt)
+	Text.super.update(self, dt)
 end
 
 function Text:draw()

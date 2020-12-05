@@ -1,7 +1,7 @@
 Spider = Entity:extend('Spider')
 
 function Spider:new(x, y)
-	self.super.new(self, { x = x, y = y})
+	Spider.super.new(self, { x = x, y = y})
 
 	self.hp         = 30
 	self.speed      = 100
@@ -29,7 +29,7 @@ function Spider:new(x, y)
 end
 
 function Spider:update(dt)
-	self.super.update(self, dt)
+	Spider.super.update(self, dt)
 
 	local _target_dir = (self.target - self.pos):normalized()
 	local _diff       = _target_dir - self.dir

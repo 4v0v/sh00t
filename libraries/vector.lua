@@ -65,7 +65,7 @@ function Vec2.length_to(a, b) local dx = a.x - b.x local dy = a.y - b.y return s
 function Vec2.len_to(a, b) local dx = a.x - b.x local dy = a.y - b.y return sqrt(dx * dx + dy * dy) end
 function Vec2.len2_to(a, b) local dx = a.x - b.x local dy = a.y - b.y return dx * dx + dy * dy end
 function Vec2.to_polar(a) local length = sqrt(a.x^2 + a.y^2) local angle = atan2(a.y, a.x) angle = angle > 0 and angle or angle + 2 * math.pi return length, angle end
-function Vec2.angle_to(a, b) return atan2(a.y - b.y, a.x - b.x) end
+function Vec2.angle_to(a, b) return atan2(b.y - a.y, b.x - a.x) end
 function Vec2.angle_between(a, b) local source, target = a:angle(), b:angle() return atan2(sin(source-target), cos(source-target)) end
 
 function Vec2.__index(_, v)

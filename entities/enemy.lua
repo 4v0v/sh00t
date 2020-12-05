@@ -1,7 +1,7 @@
 Enemy = Entity:extend('Enemy')
 
 function Enemy:new(x, y)
-	self.super.new(self, { x = x, y = y})
+	Enemy.super.new(self, { x = x, y = y})
 
 	self.hp        = 10
 	self.r         = 25
@@ -14,7 +14,7 @@ function Enemy:new(x, y)
 end
 
 function Enemy:update(dt)
-	self.super.update(self, dt)
+	Enemy.super.update(self, dt)
 
 	local _target_direction = (self.target - self.pos):normalized()
 	local _direction_diff   = _target_direction - self.direction

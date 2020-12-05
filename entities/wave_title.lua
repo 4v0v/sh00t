@@ -1,7 +1,7 @@
 Wave_title = Entity:extend('Wave_title')
 
 function Wave_title:new(x, y, wave_number, on_kill)
-	self.super.new(self, { x = x, y = y, out_cam = true})
+	Wave_title.super.new(self, { x = x, y = y, out_cam = true})
 
 	self.wave_number = wave_number
 	self.alpha       = 0
@@ -15,10 +15,6 @@ function Wave_title:new(x, y, wave_number, on_kill)
 			end)
 		end)
 	end)
-end
-
-function Wave_title:update(dt)
-	self.super.update(self, dt)
 end
 
 function Wave_title:draw()

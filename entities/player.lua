@@ -1,7 +1,7 @@
 Player = Entity:extend('Player')
 
 function Player:new(x, y)
-	self.super.new(self, { x = x, y = y})
+	Player.super.new(self, { x = x, y = y})
 
 	self.r           = 25
 	self.speed       = 500
@@ -10,7 +10,7 @@ function Player:new(x, y)
 end
 
 function Player:update(dt)
-	self.super.update(self, dt)
+	Player.super.update(self, dt)
 
 	if     down("q") then self.pos.x = self.pos.x - self.speed * dt
 	elseif down("d") then self.pos.x = self.pos.x + self.speed * dt end
@@ -33,7 +33,7 @@ function Player:update(dt)
 end
 
 function Player:draw()
-	self.super.draw(self)
+	Player.super.draw(self)
 
 	lg.setColor(1, 0, 0)
 	lg.circle('fill', self.pos.x, self.pos.y, self.r)

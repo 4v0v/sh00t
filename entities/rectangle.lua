@@ -1,7 +1,7 @@
 Rectangle = Entity:extend('Rectangle')
 
 function Rectangle:new(x, y, w, h, opts)
-	self.super.new(self, { x = x, y = y, z = get(opts, 'z'), out_cam = get(opts, 'out_cam')})
+	Rectangle.super.new(self, { x = x, y = y, z = get(opts, 'z'), out_cam = get(opts, 'out_cam')})
 	
 	self.centered   = get(opts, 'centered', false)
 	if self.centered then 
@@ -16,7 +16,7 @@ function Rectangle:new(x, y, w, h, opts)
 end
 
 function Rectangle:update(dt)
-	self.super.update(self, dt)
+	Rectangle.super.update(self, dt)
 end
 
 function Rectangle:draw()

@@ -1,7 +1,7 @@
 Lizard = Entity:extend('Lizard')
 
 function Lizard:new(x, y)
-	self.super.new(self, { x = x, y = y})
+	Lizard.super.new(self, { x = x, y = y})
 
 	self.hp         = 30
 	self.speed      = 200
@@ -11,7 +11,7 @@ function Lizard:new(x, y)
 end
 
 function Lizard:update(dt)
-	self.super.update(self, dt)
+	Lizard.super.update(self, dt)
 
 	local _target_dir = (self.target - self.pos):normalized()
 	local _diff       = _target_dir - self.dir
