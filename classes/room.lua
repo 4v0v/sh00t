@@ -72,6 +72,10 @@ function Room:add(a, b, c)
 		id = a
 		types = b
 		entity = c
+	elseif type(a) == 'string' and type(b) == 'string' and type(c) == 'table' then 
+		id = a
+		types = {b}
+		entity = c
 	elseif type(a) == 'table' and type(b) == 'table' and type(c) == 'nil' then 
 		id = uid()
 		types = a
