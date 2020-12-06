@@ -1,7 +1,7 @@
 Worm = Entity:extend('Worm')
 
 function Worm:new(x, y, segment_nb, segment_length)
-	Worm.super.new(self, {x = x, y = y})
+	Worm.super.new(self, {x = x, y = y, types = {'Followable'}})
 
 	self.segment_length = segment_length
 

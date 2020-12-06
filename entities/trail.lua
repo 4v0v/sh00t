@@ -1,7 +1,7 @@
 Trail = Entity:extend('Trail')
 
 function Trail:new(x, y, target_x, target_y, on_kill)
-	Trail.super.new(self, { x = x, y = y})
+	Trail.super.new(self, { x = x, y = y, types = {'Followable'}})
 
 	self.target     = Vec2(target_x, target_y)
 	self.on_kill    = on_kill
@@ -10,7 +10,6 @@ function Trail:new(x, y, target_x, target_y, on_kill)
 	self.turn_speed = 0
 	self.direction  = Vec2(math.random(-1, 1), math.random(-1, 1)):normalized()
 
-	
 	for 10 do table.insert( self.points, {x = self.pos.x, y = self.pos.y}) end
 
 	self.timer:tween(0.5, self, {speed = 1500}, 'linear')

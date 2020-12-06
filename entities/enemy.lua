@@ -1,7 +1,7 @@
 Enemy = Entity:extend('Enemy')
 
 function Enemy:new(x, y)
-	Enemy.super.new(self, { x = x, y = y})
+	Enemy.super.new(self, { x = x, y = y, types = {'Followable'}})
 
 	self.hp        = 10
 	self.r         = 25

@@ -20,23 +20,17 @@ end
 function Play:update(dt)
 	Play.super.update(self, dt)
 
-	local player     = self:get('player')
-	local score      = self:get('score')
-	local not_move   = self:get('not_move')
-	local not_move_x = self:get('not_move_x')
-	local not_move_y = self:get('not_move_y')
-	local trails     = self:get_all('Trail')
-	local bullets    = self:get_all('Bullet')
-	local enemies    = self:get_all('Enemy')
-	local spiders    = self:get_all('Spider')
-	local worms      = self:get_all('Worm')
-	local followables = self:get_all('followable')
-
-	local lol = self:get_all('lol')
-
-	for lol do 
-		print(it.id)
-	end
+	local player      = self:get('player')
+	local score       = self:get('score')
+	local not_move    = self:get('not_move')
+	local not_move_x  = self:get('not_move_x')
+	local not_move_y  = self:get('not_move_y')
+	local trails      = self:get_by_type('Trail')
+	local bullets     = self:get_by_type('Bullet')
+	local enemies     = self:get_by_type('Enemy')
+	local spiders     = self:get_by_type('Spider')
+	local worms       = self:get_by_type('Worm')
+	local followables = self:get_by_type('Followable')
 
 	if not_move && not_move:collide_with_point(player.pos) then
 		local _x, _y = not_move:center()
@@ -68,7 +62,7 @@ function Play:update(dt)
 					enemy:hit()
 				else 
 					for i = 1, math.random(3) do 
-						self:add({'followable'}, Trail(enemy.pos.x, enemy.pos.y, player.pos.x, player.pos.y, fn() 
+						self:add(Trail(enemy.pos.x, enemy.pos.y, player.pos.x, player.pos.y, fn() 
 							self.score += 1
 							score:set_text(tostring(self.score))
 						end))
@@ -92,11 +86,10 @@ function Play:create_new_wave()
 	self.state = 'creating_wave'
 	self:add(Wave_title(lg.getWidth()/2, lg.getHeight()/2, self.wave_number, function()
 		for i = 1, self.wave_enemies do 
-			self:add({'followable'}, Enemy(math.random(1000), math.random(1000)))
+			self:add(Enemy(math.random(1000), math.random(1000)))
 		end
-		self:add({'followable'}, Spider(math.random(1000), math.random(1000)))
-		self:add({'followable'}, Worm(math.random(1000), math.random(1000), 40, 100))
-
+		self:add(Spider(math.random(1000), math.random(1000)))
+		self:add(Worm(math.random(1000), math.random(1000), 40, 100))
 
 		self.state = 'playing_wave'
 	end))

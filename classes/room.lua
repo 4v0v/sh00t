@@ -12,12 +12,12 @@ function Room:update(dt)
 	self.timer:update(dt)
 	self.camera:update(dt)
 
-	-- update 
+	-- update entitites
 	for _, ent in pairs(self._ents['All']) do 
 		ent:update(dt)
 	end
 
-	-- delete
+	-- delete dead entities
 	for _, ent in pairs(self._ents['All']) do 
 		if ent.dead then
 			ent.timer:destroy()
@@ -30,16 +30,16 @@ function Room:update(dt)
 		end
 	end
 
-	-- push from queue
-	for _, ent in pairs(self._queue) do
-		for _, type in ipairs(ent.types) do 
+	-- push entities from queue
+	for _, queued_ent in pairs(self._queue) do
+		for _, type in ipairs(queued_ent.types) do 
 			if not self._ents[type] then 
 				self._ents[type] = {}
 			end
-			self._ents[type][ent.id] = ent
+			self._ents[type][queued_ent.id] = queued_ent
 		end
-		self._ents['All'][ent.id]    = ent
-		ent:init()
+		self._ents['All'][queued_ent.id] = queued_ent
+		queued_ent:init()
 	end
 	self._queue = {}
 end
@@ -84,11 +84,13 @@ function Room:add(a, b, c)
 	end
 
 	table.insert(types, entity:class())
+	for _, type in pairs(entity.types) do 
+		table.insert(types, type)
+	end
 
 	entity.types    = types  
 	entity.id       = id
 	entity.room     = self
-	
 	self._queue[id] = entity
 	return entity 
 end
@@ -104,12 +106,31 @@ function Room:get(id)
 	return entity
 end
 
-function Room:get_all(type)
-	if not self._ents[type] then return {} end
-	local entities = {}
-	for _, ent in pairs(self._ents[type]) do 
-		if not ent.dead then table.insert(entities, ent) end
+function Room:get_by_type(...)
+	local entities, types = {}
+	local types = ...
+	if #{...} > 1 then types = {...} end -- ... = string, string, string
+
+	if type(types) == 'string' then 
+		if self._ents[types] then
+			for _, ent in pairs(self._ents[types]) do 
+				if not ent.dead then table.insert(entities, ent) end
+			end
+		end
+	elseif type(types) == 'table' then 
+		local _temp = {} -- filter duplicate entities using id
+		for _, type in pairs(types) do
+			if self._ents[type] then
+				for _, ent in pairs(self._ents[type]) do
+					if not ent.dead then _temp[ent.id] = ent end
+				end
+			end
+		end
+		for _, ent in pairs(_temp) do 
+			table.insert(entities, ent)
+		end
 	end
+
 	return entities
 end
 

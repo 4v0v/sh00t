@@ -1,7 +1,7 @@
 Spider = Entity:extend('Spider')
 
 function Spider:new(x, y)
-	Spider.super.new(self, { x = x, y = y})
+	Spider.super.new(self, { x = x, y = y, types = {'Followable'}})
 
 	self.hp         = 30
 	self.speed      = 200
