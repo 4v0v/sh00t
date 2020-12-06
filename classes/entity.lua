@@ -3,8 +3,8 @@ Entity = Class:extend('Entity')
 function Entity:new(opts)
 	self.timer   = Timer()
 	self.dead    = false
-	self.room    = nil
-	self.id      = nil
+	self.room    = {}
+	self.id      = ''
 	self.types   = get(opts, 'types', {})
 	self.pos     = Vec2(get(opts, 'x', 0), get(opts, 'y', 0))
 	self.z       = get(opts, 'z', 10)
@@ -18,14 +18,16 @@ function Entity:update(dt)
 	self.timer:update(dt) 
 end
 
-function Entity:set_pos(x, y) 
-	self.pos = Vec2(x, y) 
-	return self 
-end
+function Entity:is_type(...) 
+	local types = {...}
 
-function Entity:set_state(state) 
-	self.state = state 
-	return self 
+	for _, type in ipairs(types) do
+		for _, t in ipairs(self.types) do 
+			if type == t then return true end
+		end
+	end
+
+	return false
 end
 
 function Entity:kill() 

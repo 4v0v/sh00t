@@ -110,47 +110,41 @@ function Room:get(id)
 end
 
 function Room:get_by_type(...)
-	local entities, types = {}
-	local types = ...
-	if #{...} > 1 then types = {...} end -- ... = string, string, string
+	local entities = {}
+	local types = {...}
+	local filter = {} -- filter duplicate entities using id
 
-	if type(types) == 'string' then 
-		if self._ents[types] then
-			for _, ent in pairs(self._ents[types]) do 
-				if not ent.dead then table.insert(entities, ent) end
+	for _, type in pairs(types) do
+		if self._ents[type] then
+			for _, ent in pairs(self._ents[type]) do
+				if not ent.dead then filter[ent.id] = ent end
 			end
 		end
-	elseif type(types) == 'table' then 
-		local _temp = {} -- filter duplicate entities using id
-		for _, type in pairs(types) do
-			if self._ents[type] then
-				for _, ent in pairs(self._ents[type]) do
-					if not ent.dead then _temp[ent.id] = ent end
-				end
-			end
-		end
-		for _, ent in pairs(_temp) do 
-			table.insert(entities, ent)
-		end
+	end
+	for _, ent in pairs(filter) do 
+		table.insert(entities, ent)
 	end
 
 	return entities
 end
 
-function Room:count(type)
-	if not self._ents[type] then return 0 end
+function Room:count(...)
 	local entities = {}
-	for _, ent in pairs(self._ents[type]) do 
-		if not ent.dead then table.insert(entities, ent) end
-	end
-	return #entities
-end
+	local types = {...}
+	local filter = {} -- filter duplicate entities using id
 
-function Room:foreach(type, func) 
-	if not self._ents[type] then return end
-	for id, ent in pairs(self._ents[type]) do 
-		if not ent.dead then func(ent, id) end 
-	end 
+	for _, type in pairs(types) do
+		if self._ents[type] then
+			for _, ent in pairs(self._ents[type]) do
+				if not ent.dead then filter[ent.id] = ent end
+			end
+		end
+	end
+	for _, ent in pairs(filter) do 
+		table.insert(entities, ent)
+	end
+
+	return #entities
 end
 
 function Room:enter() 
