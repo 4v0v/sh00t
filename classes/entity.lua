@@ -5,8 +5,7 @@ function Entity:new(opts)
 	self.dead    = false
 	self.room    = nil
 	self.id      = nil
-
-	self.type    = get(opts, 'type', self:class())
+	self.types   = {}
 	self.pos     = Vec2(get(opts, 'x', 0), get(opts, 'y', 0))
 	self.z       = get(opts, 'z', 10)
 	self.out_cam = get(opts, 'out_cam', false)

@@ -23,18 +23,22 @@ function Room:update(dt)
 			ent.timer:destroy()
 			ent.room = nil
 			self._ents['All'][ent.id] = nil
-			self._ents[ent.type][ent.id] = nil
+			for _, type in pairs(ent.types) do 
+				self._ents[type][ent.id] = nil
+			end
 			ent = {}
 		end
 	end
 
 	-- push from queue
 	for _, ent in pairs(self._queue) do
-		if not self._ents[ent.type] then 
-			self._ents[ent.type] = {}
+		for _, type in ipairs(ent.types) do 
+			if not self._ents[type] then 
+				self._ents[type] = {}
+			end
+			self._ents[type][ent.id] = ent
 		end
-		self._ents[ent.type][ent.id] = ent
-		self._ents['All'][ent.id] = ent
+		self._ents['All'][ent.id]    = ent
 		ent:init()
 	end
 	self._queue = {}
@@ -58,16 +62,33 @@ function Room:draw()
 	end
 end
 
-function Room:add(a, b)
-	local id, entity
+function Room:add(a, b, c)
+	local id, types, entity
 
-	if type(a) == 'string' then
-		id, entity = a, b
-	else
-		id, entity = uid(), a
+	if type(a) == 'string' and type(b) == 'table' and type(c) == 'nil' then  
+		id = a
+		types = {}
+		entity = b
+	elseif type(a) == 'string' and type(b) == 'table' and type(c) == 'table' then 
+		id = a
+		types = b
+		entity = c
+	elseif type(a) == 'table' and type(b) == 'table' and type(c) == 'nil' then 
+		id = uid()
+		types = a
+		entity = b
+	elseif type(a) == 'table' and type(b) == 'nil' and type(c) == 'nil' then
+		id     = uid()
+		types  = {}
+		entity = a
 	end
+
+	table.insert(types, entity:class())
+
+	entity.types    = types  
 	entity.id       = id
 	entity.room     = self
+	
 	self._queue[id] = entity
 	return entity 
 end
