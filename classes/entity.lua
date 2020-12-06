@@ -12,7 +12,6 @@ function Entity:new(opts)
 	self.state   = get(opts, 'state', 'default')
 end
 
-function Entity:init() end
 function Entity:draw() end
 
 function Entity:update(dt) 

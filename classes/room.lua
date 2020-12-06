@@ -39,7 +39,6 @@ function Room:update(dt)
 			self._ents[type][queued_ent.id] = queued_ent
 		end
 		self._ents['All'][queued_ent.id] = queued_ent
-		queued_ent:init()
 	end
 	self._queue = {}
 end
