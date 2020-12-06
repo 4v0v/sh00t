@@ -9,6 +9,8 @@ function Spider:new(x, y)
 	self.dir        = Vec2()
 	self.target     = Vec2()
 	self.eye_width  = 25
+	self.r          = 50
+	self.red_color  = 0
 
 	self.legs = {
 		self:createLeg(Vec2(-55, 0), 75, 200, 45, true),
@@ -47,8 +49,8 @@ function Spider:draw()
 		lg.line(it.joint2.x, it.joint2.y, it.foot.x, it.foot.y)
 	end
 
-	lg.setColor(1, 1, 1, .6)
-	lg.circle("fill", self.pos.x, self.pos.y, 50)
+	lg.setColor(1, 1 - self.red_color, 1, .6)
+	lg.circle("fill", self.pos.x, self.pos.y, self.r)
 
 	lg.setColor(0, 0, 0)
 	lg.ellipse("fill", self.pos.x, self.pos.y, self.eye_width, 45)
@@ -142,4 +144,10 @@ function Spider:updateLeg(leg)
 	-- calculating the angles https://www.alanzucconi.com/2018/05/02/ik-2d-2/
 	leg.joint2 = leg.joint1 + Vec2(math.cos(leg.angle1), math.sin(leg.angle1)) * leg.bone1Length
 	leg.foot = leg.joint2 + Vec2(math.cos(leg.angle2), math.sin(leg.angle2)) * leg.bone2Length
+end
+
+function Spider:hit()
+	self.red_color = 1
+	if self.timer:get('hit') then self.timer:remove('hit') end
+	self:tween(.1, self, {red_color = 0}, 'linear', 'hit')
 end

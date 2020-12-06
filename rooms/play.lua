@@ -5,6 +5,8 @@ function Play:new(id)
 
 	self.wave_number  = 1
 	self.wave_enemies = 5
+	self.wave_worms   = 1
+	self.wave_spiders = 1
 	self.score        = 0
 	self.state        = 'waiting_wave_creation'
 
@@ -27,9 +29,8 @@ function Play:update(dt)
 	local not_move_y  = self:get('not_move_y')
 	local trails      = self:get_by_type('Trail')
 	local bullets     = self:get_by_type('Bullet')
-	local enemies     = self:get_by_type('Enemy')
-	local spiders     = self:get_by_type('Spider')
-	local worms       = self:get_by_type('Worm')
+
+	local killables   = self:get_by_type('Enemy', 'Spider', 'Worm')
 	local followables = self:get_by_type('Followable')
 
 	if not_move && not_move:collide_with_point(player.pos) then
@@ -54,30 +55,32 @@ function Play:update(dt)
 	end
 
 	for bullet in bullets do
-		for enemy in enemies do 
-			if point_circ_collision(bullet.pos, {x = enemy.pos.x, y = enemy.pos.y, r = enemy.r}) then 
+		for killable in killables do 
+			if point_circ_collision(bullet.pos, {x = killable.pos.x, y = killable.pos.y, r = killable.r}) then 
 				self:kill(bullet.id)
-				if enemy.hp > 0 then 
-					enemy.hp -= 1
-					enemy:hit()
+				if killable.hp > 0 then 
+					killable.hp -= 1
+					killable:hit()
 				else 
 					for i = 1, math.random(3) do 
-						self:add(Trail(enemy.pos.x, enemy.pos.y, player.pos.x, player.pos.y, fn() 
+						self:add(Trail(killable.pos.x, killable.pos.y, player.pos.x, player.pos.y, fn() 
 							self.score += 1
 							score:set_text(tostring(self.score))
 						end))
 					end
-					self:kill(enemy.id)
+					self:kill(killable.id)
 				end
 			end
 		end
 	end
 
-	local current_enemies_nb = self:count('Enemy')
+	local current_enemies_nb = self:count('Enemy', 'Spider', 'Worm')
 	if current_enemies_nb == 0 && self.state == 'playing_wave' then
 		self.state = 'waiting_wave_creation'
 		self.wave_number += 1
 		self.wave_enemies += 5
+		self.wave_spiders += 1
+		self.wave_worms += 1
 		self.timer:after(2, function() self:create_new_wave() end)
 	end
 end
@@ -88,9 +91,16 @@ function Play:create_new_wave()
 		for i = 1, self.wave_enemies do 
 			self:add(Enemy(math.random(1000), math.random(1000)))
 		end
-		self:add(Spider(math.random(1000), math.random(1000)))
-		self:add(Worm(math.random(1000), math.random(1000), 40, 100))
 
+		for i = 1, self.wave_spiders do 
+			self:add(Spider(math.random(1000), math.random(1000)))
+
+		end
+
+		for i = 1, self.wave_worms do 
+			self:add(Worm(math.random(1000), math.random(1000), 15, 50))
+		end
+	
 		self.state = 'playing_wave'
 	end))
 end
