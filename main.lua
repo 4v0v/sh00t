@@ -59,8 +59,7 @@ function love.run()
 		lg.setLineStyle("rough")
 		lg.setBackgroundColor(.2, .2, .2, .2)
 
-		-- room = Play()
-		room = Kinematics()
+		room = Play()
 	end
 	
 	function update(dt)

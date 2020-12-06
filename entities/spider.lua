@@ -4,7 +4,7 @@ function Spider:new(x, y)
 	Spider.super.new(self, { x = x, y = y})
 
 	self.hp         = 30
-	self.speed      = 100
+	self.speed      = 200
 	self.turn_speed = 50
 	self.dir        = Vec2()
 	self.target     = Vec2()

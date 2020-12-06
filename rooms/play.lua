@@ -29,6 +29,7 @@ function Play:update(dt)
 	local bullets    = self:get_all('Bullet')
 	local enemies    = self:get_all('Enemy')
 	local spiders    = self:get_all('Spider')
+	local worms    = self:get_all('Worm')
 
 	if not_move && not_move:collide_with_point(player.pos) then
 		local _x, _y = not_move:center()
@@ -56,6 +57,10 @@ function Play:update(dt)
 	end
 
 	for spiders do 
+		it:follow(player.pos.x, player.pos.y)
+	end
+
+	for worms do 
 		it:follow(player.pos.x, player.pos.y)
 	end
 
@@ -95,6 +100,8 @@ function Play:create_new_wave()
 			self:add(Enemy(math.random(1000), math.random(1000)))
 		end
 		self:add(Spider(math.random(1000), math.random(1000)))
+		self:add(Worm(math.random(1000), math.random(1000), 40, 100))
+
 
 		self.state = 'playing_wave'
 	end))
